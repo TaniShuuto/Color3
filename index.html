@@ -225,7 +225,8 @@ table.dt td .sw{display:inline-block;width:14px;height:14px;border-radius:3px;ve
 .flashcard.flip .fc-inner{transform:rotateY(180deg)}
 .fc-face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:var(--r-lg);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;background:var(--surface);box-shadow:var(--shadow)}
 .fc-back{transform:rotateY(180deg)}
-.fc-swatch{width:74px;height:74px;border-radius:12px;margin-bottom:14px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.fc-swatch{width:74px;height:74px;border-radius:12px;margin-bottom:6px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.fc-swatch-note{font-size:9.5px;color:var(--ink-3);letter-spacing:.05em;padding:2px 8px;background:rgba(255,255,255,.05);border:1px solid var(--border-soft);border-radius:9px;margin-bottom:10px;}
 .fc-q{font-family:var(--font-display);font-weight:600;font-size:26px}
 .fc-qs{font-size:13px;color:var(--ink-3);margin-top:6px}
 .fc-a{font-family:var(--font-display);font-weight:700;font-size:23px;color:var(--accent-2)}
@@ -444,40 +445,64 @@ function toneObj(sym){return TONES.find(function(t){return t.sym===sym;});}
 function hueObj(n){return HUES[n-1];}
 
 const NAMES=[
- {ja:'鴇色',yomi:'ときいろ',hex:'#f4b3c2',origin:'動物',note:'鳥のトキの風切羽の色'},
- {ja:'桜色',yomi:'さくらいろ',hex:'#fcdce3',origin:'植物',note:'サクラの花のような淡い紅'},
- {ja:'紅梅色',yomi:'こうばいいろ',hex:'#e86b79',origin:'植物',note:'紅梅の花の色'},
- {ja:'朱色',yomi:'しゅいろ',hex:'#ec6800',origin:'鉱物',note:'硫化水銀の顔料「朱」の色'},
- {ja:'茜色',yomi:'あかねいろ',hex:'#a22041',origin:'染料',note:'アカネの根で染めた暗い赤'},
- {ja:'山吹色',yomi:'やまぶきいろ',hex:'#f8b500',origin:'植物',note:'ヤマブキの花の色'},
- {ja:'鶯色',yomi:'うぐいすいろ',hex:'#928c36',origin:'動物',note:'ウグイスの羽のような暗い黄緑'},
- {ja:'萌黄',yomi:'もえぎ',hex:'#aacf52',origin:'植物',note:'春に萌え出る若葉の色'},
- {ja:'若草色',yomi:'わかくさいろ',hex:'#c3d825',origin:'植物',note:'若い草の明るい黄緑'},
- {ja:'緑青色',yomi:'ろくしょういろ',hex:'#47885e',origin:'鉱物',note:'銅にできる青緑色のさび'},
- {ja:'浅葱色',yomi:'あさぎいろ',hex:'#00a3af',origin:'植物',note:'薄い葱(ねぎ)の葉のような青緑'},
- {ja:'縹色',yomi:'はなだいろ',hex:'#2792c3',origin:'染料',note:'アイ染めの冴えた青'},
- {ja:'瑠璃色',yomi:'るりいろ',hex:'#1e50a2',origin:'鉱物',note:'宝石ラピスラズリ(瑠璃)の青'},
- {ja:'群青色',yomi:'ぐんじょういろ',hex:'#4c6cb3',origin:'鉱物',note:'鉱物由来の鮮やかな青'},
- {ja:'藍色',yomi:'あいいろ',hex:'#165e83',origin:'染料',note:'アイで染めた暗い青'},
- {ja:'菫色',yomi:'すみれいろ',hex:'#7058a3',origin:'植物',note:'スミレの花の青紫'},
- {ja:'茄子紺',yomi:'なすこん',hex:'#4f284b',origin:'植物',note:'ナスの実のような紫みの紺'},
- {ja:'鳶色',yomi:'とびいろ',hex:'#95483f',origin:'動物',note:'鳥のトビの羽のような赤褐色'},
- {ja:'小豆色',yomi:'あずきいろ',hex:'#96514d',origin:'植物',note:'アズキの実のような暗い赤'},
- {ja:'海老茶',yomi:'えびちゃ',hex:'#773c30',origin:'動物',note:'伊勢エビのような赤黒い茶'},
- {ja:'黄土色',yomi:'おうどいろ',hex:'#c39143',origin:'鉱物',note:'黄色い土(黄土)の色'},
- {ja:'利休鼠',yomi:'りきゅうねずみ',hex:'#888e7e',origin:'人名',note:'千利休にちなむ緑みの灰'},
- {ja:'鼠色',yomi:'ねずみいろ',hex:'#949495',origin:'動物',note:'ネズミの体毛のような灰色'},
- {ja:'バーミリオン',yomi:'vermilion',hex:'#ef454a',origin:'外来',note:'朱色。硫化水銀の顔料名'},
+ /* ─── 和名（赤・橙・黄系） ─── */
+ {ja:'紅色',    yomi:'べにいろ',      hex:'#d7003a',origin:'染料',note:'紅花（ベニバナ）で染めた鮮やかな赤'},
+ {ja:'鴇色',    yomi:'ときいろ',      hex:'#f4b3c2',origin:'動物',note:'鳥のトキの風切羽の淡いピンク'},
+ {ja:'桜色',    yomi:'さくらいろ',    hex:'#fddde4',origin:'植物',note:'ソメイヨシノの花のような淡い紅'},
+ {ja:'桃色',    yomi:'ももいろ',      hex:'#f09aa8',origin:'植物',note:'モモの花のような淡い赤'},
+ {ja:'紅梅色',  yomi:'こうばいいろ',  hex:'#d4617a',origin:'植物',note:'紅梅の花の赤みのピンク'},
+ {ja:'朱色',    yomi:'しゅいろ',      hex:'#ea5504',origin:'鉱物',note:'硫化水銀の顔料「朱」の色'},
+ {ja:'柿色',    yomi:'かきいろ',      hex:'#ed6d3d',origin:'植物',note:'熟した柿の実のような橙みの赤'},
+ {ja:'橙色',    yomi:'だいだいいろ',  hex:'#f08300',origin:'植物',note:'ダイダイ（ミカン科）の果実の色'},
+ {ja:'茜色',    yomi:'あかねいろ',    hex:'#9d2433',origin:'染料',note:'アカネの根で染めた暗い赤'},
+ {ja:'鳶色',    yomi:'とびいろ',      hex:'#8f4035',origin:'動物',note:'鳥のトビの羽のような赤褐色'},
+ {ja:'小豆色',  yomi:'あずきいろ',    hex:'#96514d',origin:'植物',note:'アズキの実のような暗い赤褐色'},
+ {ja:'海老茶',  yomi:'えびちゃ',      hex:'#773c30',origin:'動物',note:'伊勢エビのような赤黒い茶'},
+ {ja:'栗色',    yomi:'くりいろ',      hex:'#762b1a',origin:'植物',note:'クリの実の外皮のような暗い赤褐色'},
+ /* ─── 和名（黄・金・土系） ─── */
+ {ja:'山吹色',  yomi:'やまぶきいろ',  hex:'#f9a825',origin:'植物',note:'ヤマブキの花の黄金色'},
+ {ja:'黄土色',  yomi:'おうどいろ',    hex:'#c98b2f',origin:'鉱物',note:'黄色い土（黄土）の色'},
+ /* ─── 和名（緑系） ─── */
+ {ja:'若草色',  yomi:'わかくさいろ',  hex:'#c0d84d',origin:'植物',note:'若い草の明るい黄緑'},
+ {ja:'萌黄',    yomi:'もえぎ',        hex:'#86bf31',origin:'植物',note:'春に萌え出る若葉の黄みの緑'},
+ {ja:'松葉色',  yomi:'まつばいろ',    hex:'#707b3e',origin:'植物',note:'松の葉のような灰みを帯びた緑'},
+ {ja:'鶯色',    yomi:'うぐいすいろ',  hex:'#8f7e3f',origin:'動物',note:'ウグイスの羽のような暗い黄緑'},
+ {ja:'常磐色',  yomi:'ときわいろ',    hex:'#007b50',origin:'植物',note:'常緑樹の葉のような深みのある緑'},
+ {ja:'緑青色',  yomi:'ろくしょういろ',hex:'#407f55',origin:'鉱物',note:'銅にできる青緑色のさび'},
+ /* ─── 和名（青・紺系） ─── */
+ {ja:'浅葱色',  yomi:'あさぎいろ',    hex:'#00a3af',origin:'植物',note:'薄い葱の葉のような青みの緑'},
+ {ja:'縹色',    yomi:'はなだいろ',    hex:'#2172b6',origin:'染料',note:'アイ染めの冴えた青'},
+ {ja:'群青色',  yomi:'ぐんじょういろ',hex:'#4150a0',origin:'鉱物',note:'鉱物由来の鮮やかな青'},
+ {ja:'瑠璃色',  yomi:'るりいろ',      hex:'#1e50a2',origin:'鉱物',note:'宝石ラピスラズリの深い青'},
+ {ja:'藍色',    yomi:'あいいろ',      hex:'#165e83',origin:'染料',note:'アイで染めた暗い青'},
+ /* ─── 和名（紫系） ─── */
+ {ja:'菫色',    yomi:'すみれいろ',    hex:'#6854a3',origin:'植物',note:'スミレの花の青紫'},
+ {ja:'紫',      yomi:'むらさき',      hex:'#884898',origin:'植物',note:'紫草の根で染めた赤みの紫'},
+ {ja:'江戸紫',  yomi:'えどむらさき',  hex:'#664a97',origin:'植物',note:'江戸時代に流行した青みの強い紫'},
+ {ja:'茄子紺',  yomi:'なすこん',      hex:'#4f284b',origin:'植物',note:'ナスの実のような紫みの紺'},
+ /* ─── 和名（白・灰・黒系） ─── */
+ {ja:'象牙色',  yomi:'ぞうげいろ',    hex:'#f8f4e0',origin:'動物',note:'ゾウのキバのような黄みがかった白'},
+ {ja:'生成り色',yomi:'きなりいろ',    hex:'#f0e5c0',origin:'植物',note:'晒していない天然の絹・綿の色'},
+ {ja:'利休鼠',  yomi:'りきゅうねずみ',hex:'#898e7c',origin:'人名',note:'千利休にちなむ緑みの灰'},
+ {ja:'鼠色',    yomi:'ねずみいろ',    hex:'#9fa0a0',origin:'動物',note:'ネズミの体毛のような灰色'},
+ /* ─── 外来語（赤・橙系） ─── */
+ {ja:'スカーレット',yomi:'scarlet',   hex:'#d7001a',origin:'外来',note:'鮮やかな黄みの赤。英語の「緋色」'},
+ {ja:'バーミリオン',yomi:'vermilion', hex:'#ef454a',origin:'外来',note:'朱色に近い顔料名。硫化水銀系'},
+ {ja:'サーモンピンク',yomi:'salmon pink',hex:'#f6a08b',origin:'外来',note:'サケの身のような黄みのピンク'},
+ {ja:'マルーン', yomi:'maroon',       hex:'#6e2c2c',origin:'外来',note:'栗（marron）のような暗い赤褐色'},
+ {ja:'セピア',   yomi:'sepia',        hex:'#704214',origin:'外来',note:'イカ墨（sepia）に由来する暗い茶'},
+ /* ─── 外来語（黄・橙系） ─── */
  {ja:'マリーゴールド',yomi:'marigold',hex:'#ffb11b',origin:'外来',note:'マリーゴールドの花の橙黄'},
- {ja:'オリーブ',yomi:'olive',hex:'#787d34',origin:'外来',note:'オリーブの実の暗い黄緑'},
- {ja:'ビリジアン',yomi:'viridian',hex:'#009b79',origin:'外来',note:'青みの緑の絵具・顔料名'},
- {ja:'ターコイズ',yomi:'turquoise',hex:'#40c0cb',origin:'外来',note:'宝石トルコ石の青緑'},
+ {ja:'ベージュ', yomi:'beige',        hex:'#c5a882',origin:'外来',note:'自然な羊毛・生地のような暖かみのある薄黄'},
+ /* ─── 外来語（緑系） ─── */
+ {ja:'オリーブ', yomi:'olive',        hex:'#787d34',origin:'外来',note:'オリーブの実の暗い黄緑'},
+ {ja:'ビリジアン',yomi:'viridian',    hex:'#009b79',origin:'外来',note:'青みの緑の絵具・顔料名'},
+ /* ─── 外来語（青系） ─── */
+ {ja:'ターコイズ',yomi:'turquoise',   hex:'#40c0cb',origin:'外来',note:'宝石トルコ石（turquoise）の青緑'},
  {ja:'セルリアンブルー',yomi:'cerulean blue',hex:'#2a83a2',origin:'外来',note:'澄んだ空のような青'},
  {ja:'コバルトブルー',yomi:'cobalt blue',hex:'#0067c0',origin:'外来',note:'コバルト顔料の冴えた青'},
- {ja:'ラベンダー',yomi:'lavender',hex:'#bca8d4',origin:'外来',note:'ラベンダーの花の淡い紫'},
- {ja:'マルーン',yomi:'maroon',hex:'#6e2c2c',origin:'外来',note:'クリの実のような赤褐色'},
- {ja:'セピア',yomi:'sepia',hex:'#704214',origin:'外来',note:'イカ墨に由来する暗い茶'},
- {ja:'サーモンピンク',yomi:'salmon pink',hex:'#f6a08b',origin:'外来',note:'サケの身のような黄みのピンク'}
+ /* ─── 外来語（紫系） ─── */
+ {ja:'ラベンダー',yomi:'lavender',    hex:'#bca8d4',origin:'外来',note:'ラベンダーの花の淡い紫'}
 ];
 const CATS=[
  {key:'pccs',   icon:'\uD83C\uDFAF',name:'色の表し方・PCCS',short:'PCCS'},
@@ -1351,7 +1376,9 @@ function renderFlashcard(){
   var el=document.getElementById('view-cards');
   if(DECKSESS.idx>=DECKSESS.order.length){renderDeckDone();return;}
   var c=DECKSESS.cards[DECKSESS.order[DECKSESS.idx]];
-  var swatch=c.hex?'<div class="fc-swatch" style="background:'+c.hex+'"></div>':'';
+  var swatchDiv=c.hex?'<div class="fc-swatch" style="background:'+c.hex+'"></div>':'';
+  var swatchNote=c.hex&&c.kind==='name'?'<div class="fc-swatch-note">参考色（実物と差があります）</div>':'';
+  var swatch=swatchDiv+swatchNote;
   var html='<div class="fc-stage">';
   html+='<div class="fc-count">'+(DECKSESS.idx+1)+' / '+DECKSESS.order.length+
     '　覚えた '+DECKSESS.known+'　あやふや '+DECKSESS.dunno+'</div>';
